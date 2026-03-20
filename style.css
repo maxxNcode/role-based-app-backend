@@ -1,0 +1,276 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+/*PAGE VISIBILITY CONTROL*/
+.page {
+  display: none;
+}
+.page.active {
+  display: block;
+}
+/*NAVIGATION VISIBILITY CONTROL*/
+/* When NOT logged in: show login nav, hide admin nav */
+body.not-authenticated .nav-not-loggedin {
+  display: flex;
+}
+body.not-authenticated .nav-admin {
+  display: none;
+}
+/* When logged in: hide login nav, show admin nav */
+body.authenticated .nav-not-loggedin {
+  display: none;
+}
+body.authenticated .nav-admin {
+  display: flex;
+}
+
+/* Role-based visibility */
+body.not-authenticated .role-logged-in {
+  display: none;
+}
+body.authenticated .role-logged-out {
+  display: none;
+}
+.role-admin {
+  display: none;
+}
+body.is-admin .role-admin {
+  display: block;
+}
+
+/* ===========================================
+   BASIC PAGE LAYOUT
+   =========================================== */
+.home {
+  display: block;
+}
+.register {
+  display: block;
+}
+.verify-email {
+  display: block;
+}
+.login-section {
+  display: block;
+}
+.profile-section {
+  display: flex;
+}
+.employees-section {
+  display: block;
+}
+.vrfy-txt {
+  display: block;
+}
+
+/* ===========================================
+   NAVIGATION BAR STYLES
+   Both nav bars share similar styling
+   =========================================== */
+.nav-not-loggedin {
+  height: 70px;                    /* Fixed height */
+  background-color: rgb(31, 31, 31); /* Dark background */
+  justify-content: space-between;  /* Logo left, links right */
+  align-items: center;             /* Vertically centered */
+  padding: 0 20px 0 20px;          /* Left and right padding */
+}
+.nav-admin {
+  height: 70px;
+  background-color: rgb(31, 31, 31);
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px 0 20px;
+}
+
+/* Logo text styling */
+.logo {
+  font-size: 22px;
+  color: white;
+}
+
+/* Navigation links container */
+.links {
+  display: flex;
+  flex-direction: column;  /* Stack links vertically */
+  gap: 10px;              /* Space between links */
+}
+.links a {
+  color: rgb(184, 184, 184);  /* Light gray color */
+  font-size: 14px;
+}
+
+/* ===========================================
+   MAIN CONTENT AREA
+   =========================================== */
+main {
+  padding: 0 20px 0 20px;  /* Left and right padding */
+}
+
+/* ===========================================
+   HOME PAGE - NOTE BOX
+   The blue info box on the home page
+   =========================================== */
+.note {
+  background-color: rgb(154, 235, 255);  /* Light blue */
+  padding: 10px;
+  height: 50px;
+  width: 600px;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  border-radius: 8px;                     /* Rounded corners */
+  color: rgb(0, 78, 78);                  /* Dark teal text */
+}
+.pink {
+  color: rgb(255, 80, 109);  /* Pink highlight for "localStorage" */
+}
+.note p {
+  margin-top: 8px;
+}
+
+/* Get Started button */
+.getstarted-btn {
+  padding: 10px;
+  border-radius: 8px;
+  background-color: rgb(7, 137, 243);  /* Blue */
+  border: none;
+  color: white;
+  margin-top: 20px;
+}
+
+/* Link hover effects */
+.links a:hover {
+  text-decoration: none;
+  color: rgb(132, 132, 132);  /* Darker on hover */
+}
+.links a:active {
+  text-decoration: none;
+  color: rgb(184, 184, 184);  /* Back to normal on click */
+}
+
+/* ===========================================
+   FORM STYLES
+   Used for login, register, and other forms
+   =========================================== */
+form {
+  width: 400px;                    /* Fixed form width */
+  display: flex;
+  flex-direction: column;          /* Stack inputs vertically */
+  gap: 20px;                       /* Space between inputs */
+}
+
+/* Input field container */
+.input-dsgn {
+  display: flex;
+  flex-direction: column;          /* Label on top of input */
+}
+
+/* Input field styling */
+form input {
+  height: 36px;
+  border-radius: 6px;              /* Rounded corners */
+  padding: 4px;
+  font-size: 18px;
+}
+
+/* Button container */
+.actions {
+  display: flex;
+  gap: 10px;                       /* Space between buttons */
+}
+
+/* ===========================================
+   VERIFY EMAIL PAGE
+   =========================================== */
+.vrfy-txt {
+  padding: 20px;
+  width: 30%;
+  background-color: #d2e7dd;       /* Light green */
+  border-radius: 8px;
+  font-weight: 600;                /* Semi-bold */
+  font-size: 16px;
+}
+
+/* ===========================================
+   PROFILE PAGE
+   =========================================== */
+.profile-details {
+  padding: 6px;
+  border: 2px solid #176df7;       /* Blue border */
+  border-radius: 20px;
+  width: 40%;
+  box-shadow: inset 0px 0px 10px rgb(206, 192, 255);  /* Inner shadow */
+}
+
+/* Edit Profile button */
+.profile-details button {
+  padding: 10px;
+  border-radius: 6px;
+  width: 120px;
+  background-color: rgba(250, 128, 114, 0);  /* Transparent */
+  border: 2px solid #176df7;
+  color: #176df7;
+  margin-bottom: 20px;
+}
+.profile-details button:hover {
+  background-color: #176df7;       /* Fill with blue on hover */
+  color: white;
+}
+
+/* ===========================================
+   EMPLOYEES PAGE
+   =========================================== */
+
+/* Header with title and add button */
+.bulagon {
+  display: flex;
+  justify-content: space-between;  /* Title left, button right */
+  height: auto;
+  align-items: center;
+}
+.bulagon button {
+  padding: 10px 20px 10px 20px;
+  border-radius: 6px;
+  border: none;
+  background-color: #198754;        /* Green */
+  color: white;
+}
+
+/* Add/Edit form container */
+.addedit {
+  padding: 20px;
+  border: 2px solid;
+  width: 450px;
+  margin-bottom: 30px;
+}
+
+/* ===========================================
+   DEPARTMENTS PAGE
+   =========================================== */
+.department {
+  width: 100%;
+}
+
+/* Flex container for header with button */
+.flexMe {
+  display: flex;
+  justify-content: space-between;  /* Title left, button right */
+  align-items: center;
+  width: 100%;
+}
+
+/* Table button container (Edit/Delete buttons) */
+.tb-btn-holder {
+  display: flex;
+  gap: 5px;                        /* Space between buttons */
+}
+
+/* ===========================================
+   ACCOUNTS PAGE
+   =========================================== */
+#accounts-page {
+  padding-bottom: 30px;
+}

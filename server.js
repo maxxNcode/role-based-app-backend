@@ -13,13 +13,16 @@ app.use(cors({
   origin: ['http://127.0.0.1:5500', 'http://localhost:5500'] // Adjust based on your frontend URL
 }));
 
+
+
 // Middleware to parse JSON
 app.use(express.json());
+app.use(express.static(__dirname));
 
 // In-memory "database" (replace with MongoDB later)
 let users = [
-  { id: 1, username: 'admin', password: '$2a$10$...', role: 'admin' }, // pre-hashed
-  { id: 2, username: 'alice', password: '$2a$10$...', role: 'user' }
+  { id: 1, email: 'admin@example.com', firstName: 'Admin', lastName: 'User', password: 'admin123', role: 'admin' },
+  { id: 2, email: 'alice@example.com', firstName: 'Alice', lastName: 'Smith', password: 'user123', role: 'user' }
 ];
 
 // Helper: Hash password (run once to generate hashes)
@@ -36,14 +39,14 @@ if (!users[0].password.includes('$2a$')) {
 
 // POST /api/register
 app.post('/api/register', async (req, res) => {
-    const { username, password, role = 'user' } = req.body;
+    const { email, password, firstName = '', lastName = '', role = 'user' } = req.body;
 
-    if (!username || !password) {
-        return res.status(400).json({ error: 'Username and password required' });
+    if (!email || !password) {
+        return res.status(400).json({ error: 'Email and password required' });
     }
 
     // Check if user exists
-    const existing = users.find(u => u.username === username);
+    const existing = users.find(u => u.email === email);
     if (existing) {
         return res.status(409).json({ error: 'User already exists' });
     }
@@ -52,32 +55,34 @@ app.post('/api/register', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = {
         id: users.length + 1,
-        username,
+        email,
+        firstName,
+        lastName,
         password: hashedPassword,
         role // Note: In real apps, role should NOT be set by client!
     };
 
     users.push(newUser);
-res.status(201).json({ message: 'User registered', username, role });
+res.status(201).json({ message: 'User registered', email, firstName, lastName, role });
 });
 
 // POST /api/login
 app.post('/api/login', async (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
 
-  const user = users.find(u => u.username === username);
+  const user = users.find(u => u.email === email);
   if (!user || !(await bcrypt.compare(password, user.password))) {
     return res.status(401).json({ error: 'Invalid credentials' });
   }
 
   // Generate JWT token
   const token = jwt.sign(
-    { id: user.id, username: user.username, role: user.role },
+    { id: user.id, email: user.email, firstName: user.firstName, lastName: user.lastName, role: user.role },
     SECRET_KEY,
     { expiresIn: '1h' }
   );
 
-  res.json({ token, user: { username: user.username, role: user.role } });
+  res.json({ token, user: { email: user.email, firstName: user.firstName, lastName: user.lastName, role: user.role } });
 });
 
 // PROTECTED ROUTE: Get user profile
@@ -133,6 +138,6 @@ function authorizeRole(role) {
 app.listen(PORT, () => {
     console.log(` Backend running on http://localhost:${PORT}`);
     console.log(` Try logging in with:`);
-    console.log(`  - Admin: username=admin, password=admin123`);
-    console.log(`  - User:  username=alice, password=user123`);
+    console.log(`  - Admin: email=admin@example.com, password=admin123`);
+    console.log(`  - User:  email=alice@example.com, password=user123`);
 });
