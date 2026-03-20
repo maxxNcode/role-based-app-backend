@@ -1,5 +1,3 @@
-const API_BASE = '';
-
 function getAuthHeader() {
   const token = sessionStorage.getItem('authToken');
   return token ? { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' } : { 'Content-Type': 'application/json' };
@@ -131,7 +129,7 @@ async function handleLogin() {
     return;
   }
   try {
-    const response = await fetch(API_BASE + '/api/login', {
+    const response = await fetch('/api/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: email, password: password })
@@ -156,7 +154,7 @@ async function handleLogin() {
     }
   } catch (err) {
     console.error('Login error:', err);
-    alert("Network error. Is the backend running on " + API_BASE + "?");
+    alert("Network error. Is the backend running?");
   }
 }
 
@@ -177,7 +175,7 @@ async function handleRegister() {
   }
 
   try {
-    const response = await fetch(API_BASE + '/api/register', {
+    const response = await fetch('/api/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: email, password: password, firstName: firstName, lastName: lastName, role: 'user' })
@@ -233,7 +231,7 @@ document.addEventListener("DOMContentLoaded", async function() {
   const savedToken = sessionStorage.getItem('authToken');
   if (savedToken) {
     try {
-      const response = await fetch(API_BASE + '/api/profile', {
+      const response = await fetch('/api/profile', {
         headers: getAuthHeader()
       });
 
@@ -263,7 +261,7 @@ document.addEventListener("DOMContentLoaded", async function() {
 
 async function loadAdminDashboard() {
   try {
-    const response = await fetch(API_BASE + '/api/admin/dashboard', {
+    const response = await fetch('/api/admin/dashboard', {
       headers: getAuthHeader()
     });
 
@@ -283,7 +281,7 @@ async function loadAdminDashboard() {
 
 async function loadGuestContent() {
   try {
-    const response = await fetch(API_BASE + '/api/content/guest');
+    const response = await fetch('/api/content/guest');
 
     if (response.ok) {
       const data = await response.json();
